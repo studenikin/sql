@@ -1,0 +1,16 @@
+## Задание
+Есть таблица хранящая покупки (линии чека): Sales: salesid, productid, datetime, customerid.
+Мы хотим понять, через какие продукты клиенты «попадают» к нам в магазин. 
+Напишите запрос, который выводит продукт и количество случаев, когда он был первой покупкой клиента.
+
+## Запрос
+select
+	productid
+	, COUNT(productid) amount
+from Sales t1
+join (
+	select  MIN(salesid) salesid, datetime, customerid
+	from Sales
+	group by datetime, customerid) t2
+on t1.salesid = t2.salesid
+group by productid
